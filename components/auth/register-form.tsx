@@ -41,6 +41,7 @@ export const RegisterForm = () => {
         });
     })
   }
+  
   return (
     <div>
       <CardWrapper
@@ -66,6 +67,7 @@ export const RegisterForm = () => {
                         {...field}
                         disabled={isPending}
                         placeholder="John Doe"  
+                        type="text"
                       />
                     </FormControl>
                     <FormMessage />
