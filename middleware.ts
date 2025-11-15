@@ -8,7 +8,6 @@ import {
   DEFAULT_LOGIN_REDIRECT,
 } from "@/routes";
 import type { Session } from "next-auth"
-import LoginPage from "./app/auth/login/page";
 // Use only one of the two middleware options below
 // 1. Use middleware directly
 // export const { auth: middleware } = NextAuth(authConfig)
