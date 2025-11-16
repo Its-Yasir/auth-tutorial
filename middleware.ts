@@ -18,7 +18,7 @@ export default auth(async function middleware(req: NextRequest & {auth: Session 
   const {nextUrl} = req;
   const isLoggedIn = !!req.auth;
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthRoutes);
-  const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
+  const isPublicRoute = publicRoutes.includes(nextUrl.pathname);  
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
   if(nextUrl.pathname.startsWith('/api/auth/signin?error=OAuthAccountNotLinked')) {
