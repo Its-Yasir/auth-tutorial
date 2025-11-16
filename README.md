@@ -22,11 +22,17 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 ##.env Variables Requied:
 DATABASE_URL= {It is a neon database url}
+
 AUTH_SECRET = "secret"
+
 GITHUB_CLIENT_ID
+
 GITHUB_CLIENT_SECRET
+
 GOOGLE_CLIENT_ID
+
 GOOGLE_CLIENT_SECRET
+
 RESEND_API_KEY
 
 ## Learn More
