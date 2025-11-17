@@ -79,6 +79,7 @@ export const ResetForm = () => {
             <Button
               type="submit"
               className="w-full"
+              disabled={isPending}
             >
               Send Reset Email
             </Button>
