@@ -1,6 +1,5 @@
 "use client";
-import { logout } from '@/actions/logout';
-import { Button } from '@/components/ui/button';
+import { LogoutButton } from '@/components/auth/logout-button';
 // import { useCurrentUser } from '@/hooks/use-current-user';
 // import {  useSession } from 'next-auth/react';
 // import {  signOut } from 'next-auth/react';
@@ -16,18 +15,12 @@ const SettingsPage = () => {
   //   signOut();
   // }
 
-  const onClick = () => {
-    logout();
-  }
   return (
   //<div>{JSON.stringify(user)}
     <div className='bg-white-10 p-10'>
-        <Button
-          type='submit'
-          onClick={onClick}
-        >
-          Sign Out
-        </Button>
+        <LogoutButton>
+          Logout
+        </LogoutButton>
     </div>
   )
 }
