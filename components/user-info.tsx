@@ -1,5 +1,6 @@
 import { ExtendedUser } from '@/next-auth'
 import React from 'react'
+import { Badge } from './ui/badge';
 
 
 
@@ -49,6 +50,19 @@ const UserInfo = ({
             {user?.email}
           </p>
         </div>
+        <div
+          className='flex items-center justify-between rounded-lg border p-3 shadow-sm m-4'
+        >
+          <p className='text-sm font-medium'>
+            2FA Status
+          </p>
+          <Badge
+            variant={user?.isTwoFactorEnabled ? "success" : "destructive"}
+          >
+            {user?.isTwoFactorEnabled ? "ON" : "OFF"}
+          </Badge>
+        </div>
+
 
       </main>
     </div>
