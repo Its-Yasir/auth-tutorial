@@ -12,3 +12,9 @@ declare module "next-auth" {
     isTwoFactorEnabled: boolean;
   }
 }
+
+declare module "next-auth" {
+  interface User {
+    id: string;
+  }
+}
