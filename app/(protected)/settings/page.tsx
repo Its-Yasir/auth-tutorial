@@ -16,6 +16,8 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { FormError } from "@/components/form-error";
+import { FormSuccess } from "@/components/form-success";
 
 const SettingsPage = () => {
   const [isPending, startTransition] = useTransition();
@@ -78,6 +80,8 @@ const SettingsPage = () => {
                       />
                     </FormControl>
                   </FormItem>
+                  <FormError message={error}/>
+                  <FormSuccess message={success}/>
                   <Button
                     type="submit"
                     disabled={isPending}
