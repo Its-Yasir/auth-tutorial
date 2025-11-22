@@ -4,7 +4,7 @@ import * as z from 'zod';
 export const SettingSchema = z.object({
   name: z.optional(z.string()),
   isTwoFactorEnable : z.optional(z.boolean()),
-  role: z.enum([UserRole.ADMIN, UserRole.USER]),
+  Role: z.enum([UserRole.ADMIN, UserRole.USER]),
   email: z.optional(z.string().email()),
   password: z.optional(z.string().min(6)),
   newPassword: z.optional(z.string().min(6)),

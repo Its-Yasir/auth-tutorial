@@ -44,7 +44,7 @@ const SettingsPage = () => {
       email: user?.email || undefined,
       password: undefined,
       newPassword: undefined,
-      role: user?.role || undefined,
+      Role: user?.role || undefined,
     },
   });
 
@@ -67,7 +67,7 @@ const SettingsPage = () => {
           }
         })
         .catch(() => {
-          setError("Something went wrong!");
+          setError("Something went wrong by catch!");
         });
     });
   };
@@ -166,7 +166,7 @@ const SettingsPage = () => {
             )}
             <FormField
               control={form.control}
-              name="role"
+              name="Role"
               render={({ field }) => (
                 <div className="space-y-4 w-full">
                   <FormItem>
