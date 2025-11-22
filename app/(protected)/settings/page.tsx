@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { settings } from "@/actions/settings";
-import React, { useState, useTransition } from "react";
+import React, {  useState, useTransition } from "react";
 import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -16,13 +16,13 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useCurrentUser } from "@/hooks/use-current-user";
 
 const SettingsPage = () => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
-  const user = useCurrentUser();
+  const session = useSession();
+  const user = session.data?.user;
   const { update } = useSession();
   const form = useForm<z.infer<typeof SettingSchema>>({
     resolver: zodResolver(SettingSchema),
@@ -31,6 +31,7 @@ const SettingsPage = () => {
     },
   });
 
+
   const onSubmit = (values: z.infer<typeof SettingSchema>) => {
     startTransition(() => {
       settings(values)
@@ -38,9 +39,13 @@ const SettingsPage = () => {
           if (data?.error) {
             setError(data.error);
           }
-          if (data?.success) {
-            update();
-            setSuccess(data.success);
+          if (!data?.error) {
+            update({
+              name: values.name,
+            }).then(() => {
+              form.reset(values);
+            });
+            setSuccess("Data updated successfully.");
           }
         })
         .catch(() => {
@@ -73,13 +78,13 @@ const SettingsPage = () => {
                       />
                     </FormControl>
                   </FormItem>
-                <Button
-                  type="submit"
-                  disabled={isPending}
-                  className="cursor-pointer"
-                >
-                  Save Changes
-                </Button>
+                  <Button
+                    type="submit"
+                    disabled={isPending}
+                    className="cursor-pointer"
+                  >
+                    Save Changes
+                  </Button>
                 </div>
               )}
             />
