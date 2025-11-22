@@ -1,5 +1,5 @@
 import { DefaultSession } from "next-auth";
-import { UserRole } from "./lib/generated/prisma/enums";
+import { UserRole } from "./lib/enums";
 
 export type ExtendedUser =  DefaultSession["user"] & {
   role: UserRole;

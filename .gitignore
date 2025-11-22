@@ -41,4 +41,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# /lib/generated/prisma - Keep this commented so Prisma generates during build
+# Prisma generated files - generated during build, don't commit
+# /lib/generated/prisma

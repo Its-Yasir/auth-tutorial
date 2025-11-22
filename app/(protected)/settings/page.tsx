@@ -27,7 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { UserRole } from "@/lib/generated/prisma/enums";
+import { UserRole } from "@/lib/enums";
 import { Switch } from "@/components/ui/switch";
 
 const SettingsPage = () => {
