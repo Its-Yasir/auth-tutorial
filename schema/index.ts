@@ -6,11 +6,15 @@ export const SettingSchema = z.object({
   isTwoFactorEnabled : z.optional(z.boolean()),
   Role: z.enum([UserRole.ADMIN, UserRole.USER]),
   email: z.optional(z.string().email()),
-  password: z.optional(z.string().min(6)),
-  newPassword: z.optional(z.string().min(6)),
+  password: z.string().optional(),
+  newPassword: z.string().optional(),
 })
   .refine((data) => {
-    if(data.password && !data.newPassword) {
+    // Treat empty strings as undefined
+    const password = data.password === "" ? undefined : data.password;
+    const newPassword = data.newPassword === "" ? undefined : data.newPassword;
+    
+    if(password && !newPassword) {
       return false;
     }
 
@@ -20,12 +24,36 @@ export const SettingSchema = z.object({
     path: ["newPassword"],
   })
   .refine((data) => {
-    if(!data.password && data.newPassword) {
+    // Treat empty strings as undefined
+    const password = data.password === "" ? undefined : data.password;
+    const newPassword = data.newPassword === "" ? undefined : data.newPassword;
+    
+    if(!password && newPassword) {
       return false;
     } return true;
   } , {
     message: "Password is required!",
     path:["password"],  
+  })
+  .refine((data) => {
+    // Validate password length only if it's not empty
+    if(data.password && data.password !== "" && data.password.length < 6) {
+      return false;
+    }
+    return true;
+  }, {
+    message: "Password must be at least 6 characters!",
+    path: ["password"],
+  })
+  .refine((data) => {
+    // Validate newPassword length only if it's not empty
+    if(data.newPassword && data.newPassword !== "" && data.newPassword.length < 6) {
+      return false;
+    }
+    return true;
+  }, {
+    message: "New Password must be at least 6 characters!",
+    path: ["newPassword"],
   })
 
 export const NewPasswordSchema = z.object({

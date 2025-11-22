@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { settings } from "@/actions/settings";
-import React, { useState, useTransition } from "react";
+import React, { useState, useTransition, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -40,20 +40,42 @@ const SettingsPage = () => {
   const form = useForm<z.infer<typeof SettingSchema>>({
     resolver: zodResolver(SettingSchema),
     defaultValues: {
-      name: user?.name || undefined,
-      email: user?.email || undefined,
-      password: undefined,
-      newPassword: undefined,
-      Role: user?.role || undefined,
-      isTwoFactorEnabled: user?.isTwoFactorEnabled || undefined,
+      name: "",
+      email: "",
+      password: "",
+      newPassword: "",
+      Role: UserRole.USER,
+      isTwoFactorEnabled: false,
     },
   });
+
+  // Update form values when session loads
+  useEffect(() => {
+    if (session.status === "authenticated" && user) {
+      form.reset({
+        name: user.name || "",
+        email: user.email || "",
+        password: "",
+        newPassword: "",
+        Role: user.role || UserRole.USER,
+        isTwoFactorEnabled: user.isTwoFactorEnabled || false,
+      });
+    }
+  }, [session.status, user, form]);
 
   const onSubmit = (values: z.infer<typeof SettingSchema>) => {
     setError('');
     setSuccess("");
+    
+    // Convert empty strings to undefined for password fields
+    const processedValues = {
+      ...values,
+      password: values.password === "" ? undefined : values.password,
+      newPassword: values.newPassword === "" ? undefined : values.newPassword,
+    };
+    
     startTransition(() => {
-      settings(values)
+      settings(processedValues)
         .then((data) => {
           if (data?.error) {
             setError(data.error);
@@ -101,7 +123,7 @@ const SettingsPage = () => {
                 </div>
               )}
             />
-            {user?.isOAuth === false && (
+            {session.status === "authenticated" && user?.isOAuth !== true && (
               <>
                 <FormField
                   control={form.control}
@@ -175,7 +197,7 @@ const SettingsPage = () => {
                     <Select
                       disabled={isPending}
                       onValueChange={field.onChange}
-                      defaultValue={field.value}
+                      value={field.value}
                     >
                       <FormControl className="w-full border-black">
                         <SelectTrigger>
@@ -192,7 +214,7 @@ const SettingsPage = () => {
                 </div>
               )}
             />
-            {user?.isOAuth === false && (
+            {session.status === "authenticated" && user?.isOAuth !== true && (
               <FormField
                 control={form.control}
                 name="isTwoFactorEnabled"

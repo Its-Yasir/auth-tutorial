@@ -11,7 +11,6 @@ import * as z from "zod";
 
 export const settings = async (values: z.infer<typeof SettingSchema>) => {
   const user = await currentUser();
-
   if (!user) {
     return { error: "Unauthrorized!" };
   }
@@ -58,14 +57,30 @@ export const settings = async (values: z.infer<typeof SettingSchema>) => {
     const hashedPassword = await bcrypt.hash(values.newPassword, 10);
     values.password = hashedPassword;
     values.newPassword = undefined;
-    console.log(values)
+  } else {
+    // Remove password fields if not being changed
+    values.password = undefined;
+    values.newPassword = undefined;
   }
+
+  // Prepare update data, excluding undefined values
+  const updateData: {
+    name?: string;
+    email?: string;
+    Role?: z.infer<typeof SettingSchema>["Role"];
+    isTwoFactorEnabled?: boolean;
+    password?: string;
+  } = {};
+  
+  if (values.name !== undefined) updateData.name = values.name;
+  if (values.email !== undefined) updateData.email = values.email;
+  if (values.Role !== undefined) updateData.Role = values.Role;
+  if (values.isTwoFactorEnabled !== undefined) updateData.isTwoFactorEnabled = values.isTwoFactorEnabled;
+  if (values.password !== undefined) updateData.password = values.password;
 
   await db.user.update({
     where: { id: dbUser.id },
-    data: {
-      ...values,
-    },
+    data: updateData,
   });
 
   return { success: "Settings updated!" };

@@ -41,7 +41,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     },
 
     async session({ token, session }) {
-      console.log("Session toekn: ", session);
       if (session.user && token.sub) {
         session.user.id = token.sub;
       }
@@ -69,7 +68,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       const existingAccount = await getAccountById(existingUser.id);
 
       token.isOAuth = !!(existingAccount);
-      console.log("IS O Auth?", token.isOAuth);
       token.name = existingUser.name;
       token.email = existingUser.email;
       token.role = existingUser.Role;
