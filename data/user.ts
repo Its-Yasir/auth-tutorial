@@ -7,7 +7,8 @@ export const getUserByEmail =  async (email: string) => {
     });
 
     return user;
-  } catch {
+  } catch(error) {
+    console.error("DATABASE ERROR:", error);
     return null;
   }
 }
