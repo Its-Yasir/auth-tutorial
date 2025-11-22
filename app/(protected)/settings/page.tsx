@@ -45,6 +45,7 @@ const SettingsPage = () => {
       password: undefined,
       newPassword: undefined,
       Role: user?.role || undefined,
+      isTwoFactorEnabled: user?.isTwoFactorEnabled || undefined,
     },
   });
 
@@ -194,7 +195,7 @@ const SettingsPage = () => {
             {user?.isOAuth === false && (
               <FormField
                 control={form.control}
-                name="isTwoFactorEnable"
+                name="isTwoFactorEnabled"
                 render={({ field }) => (
                   <div className="space-y-4">
                     <FormItem className="flex items-center justify-between p-3 shadow-sm border">
