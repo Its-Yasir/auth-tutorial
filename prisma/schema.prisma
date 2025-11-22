@@ -10,6 +10,7 @@ generator client {
 }
 // prisma/schema.prisma
 datasource db {
+  url = env("DATABASE_URL")
   provider = "postgresql"
 }
 
